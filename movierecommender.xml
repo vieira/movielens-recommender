@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="movierecommender" default="all">
+  
+  
+  <property file="movierecommender.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.apk"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
+  <path id="jdk.classpath.1.6">
+    <fileset dir="${jdk.home.1.6}">
+      <include name="lib/deploy.jar"/>
+      <include name="lib/dt.jar"/>
+      <include name="lib/javaws.jar"/>
+      <include name="lib/jce.jar"/>
+      <include name="lib/jconsole.jar"/>
+      <include name="lib/management-agent.jar"/>
+      <include name="lib/plugin.jar"/>
+      <include name="lib/sa-jdi.jar"/>
+      <include name="../Classes/charsets.jar"/>
+      <include name="../Classes/classes.jar"/>
+      <include name="../Classes/jsse.jar"/>
+      <include name="../Classes/ui.jar"/>
+      <include name="lib/ext/apple_provider.jar"/>
+      <include name="lib/ext/dnsns.jar"/>
+      <include name="lib/ext/localedata.jar"/>
+      <include name="lib/ext/sunjce_provider.jar"/>
+      <include name="lib/ext/sunpkcs11.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.6}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module MovieRecommender -->
+  
+  <dirname property="module.movierecommender.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.movierecommender" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.movierecommender" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.movierecommender" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.movierecommender" value="${compiler.args}"/>
+  
+  <property name="movierecommender.output.dir" value="${module.movierecommender.basedir}/out/production/MovieRecommender"/>
+  <property name="movierecommender.testoutput.dir" value="${module.movierecommender.basedir}/out/test/MovieRecommender"/>
+  
+  <path id="movierecommender.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="movierecommender.module.production.classpath">
+    <path refid="${module.jdk.classpath.movierecommender}"/>
+  </path>
+  
+  <path id="movierecommender.runtime.production.module.classpath">
+    <pathelement location="${movierecommender.output.dir}"/>
+  </path>
+  
+  <path id="movierecommender.module.classpath">
+    <path refid="${module.jdk.classpath.movierecommender}"/>
+    <pathelement location="${movierecommender.output.dir}"/>
+  </path>
+  
+  <path id="movierecommender.runtime.module.classpath">
+    <pathelement location="${movierecommender.testoutput.dir}"/>
+    <pathelement location="${movierecommender.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.movierecommender">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.movierecommender">
+    <patternset refid="excluded.from.module.movierecommender"/>
+  </patternset>
+  
+  <path id="movierecommender.module.sourcepath">
+    <dirset dir="${module.movierecommender.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.movierecommender" depends="compile.module.movierecommender.production,compile.module.movierecommender.tests" description="Compile module MovieRecommender"/>
+  
+  <target name="compile.module.movierecommender.production" description="Compile module MovieRecommender; production classes">
+    <mkdir dir="${movierecommender.output.dir}"/>
+    <javac destdir="${movierecommender.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.movierecommender}/javac">
+      <compilerarg line="${compiler.args.movierecommender}"/>
+      <bootclasspath refid="movierecommender.module.bootclasspath"/>
+      <classpath refid="movierecommender.module.production.classpath"/>
+      <src refid="movierecommender.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.movierecommender"/>
+    </javac>
+    
+    <copy todir="${movierecommender.output.dir}">
+      <fileset dir="${module.movierecommender.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.movierecommender.tests" depends="compile.module.movierecommender.production" description="compile module MovieRecommender; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.movierecommender" description="cleanup module">
+    <delete dir="${movierecommender.output.dir}"/>
+    <delete dir="${movierecommender.testoutput.dir}"/>
+  </target>
+
+    <target name="jar" depends="build.modules">
+        <mkdir dir="${movierecommender.output.dir}/jar" />
+        <jar destfile="${movierecommender.output.dir}/jar/rec.jar" basedir="${movierecommender.output.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="pt.ist.recommender.Main" />
+            </manifest>
+        </jar>
+
+    </target>
+  
+  <target name="run.tests" depends="jar" description="Run the tests">
+    <java jar="${movierecommender.output.dir}/jar/rec.jar" fork="true" />
+  </target>
+  
+  <target name="clean" depends="clean.module.movierecommender" description="cleanup all"/>
+
+  <target name="build.modules" depends="clean, compile.module.movierecommender" description="build all modules"/>
+
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
